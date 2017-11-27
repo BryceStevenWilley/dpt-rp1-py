@@ -36,3 +36,19 @@ sudo asar p ~/Desktop/dpt ./Contents/Resources/app.asar
 ```
 
 Now run the Digital Paper App and it will create two files, _client\_id.txt_ and _key.pem_, on the desktop once the pairing is complete.
+
+Create a folder called `dpt-rp1-py/certs` and move these two files into there.
+
+## Running the python script
+
+Download python3 and pip3 if needed. On Ubuntu, this is 
+
+```
+sudo apt-get install python3 pip3
+```
+
+Then, use pip3 to install all of the dependencies.
+
+```
+sudo -H pip3 install -r requirements.txt
+```
