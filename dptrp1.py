@@ -76,7 +76,9 @@ class DigitalPaper(object):
             f.write(r.content)
         
 if __name__ == "__main__":
-    dp = DigitalPaper(client_id="5d8cdd57-d496-459d-bd06-4774223e6707")
+    with open("certs/client_id.txt") as f:
+        client_id = f.read() 
+    dp = DigitalPaper(client_id=client_id)
     dp.authenticate()
     
     endpoints = [
