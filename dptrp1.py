@@ -80,6 +80,7 @@ if __name__ == "__main__":
         client_id = f.read() 
     dp = DigitalPaper(client_id=client_id)
     dp.authenticate()
+    dp.take_screenshot()
     
     endpoints = [
         '/documents',
