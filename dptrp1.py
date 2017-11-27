@@ -16,10 +16,10 @@ class DigitalPaper(object):
         
     @property
     def base_url(self):
-        return f"https://digitalpaper.local:8443"    
+        return "https://digitalpaper.local:8443"
     
     def get_nonce(self):
-        url = f"{self.base_url}/auth/nonce/{self.client_id}"
+        url = "{0}/auth/nonce/{1}".format(self.base_url, self.client_id)
         r = requests.get(url, verify=False)
         return r.json()["nonce"]
 
@@ -28,7 +28,7 @@ class DigitalPaper(object):
         sig_maker = httpsig.Signer(secret=secret, algorithm='rsa-sha256')
         nonce = self.get_nonce()
         signed_nonce = sig_maker._sign(nonce)
-        url = f"{self.base_url}/auth"
+        url = "{0}/auth".format(self.base_url)
         data = {
             "client_id": self.client_id,
             "nonce_signed": signed_nonce
@@ -38,22 +38,22 @@ class DigitalPaper(object):
         self.cookies["Credentials"] = credentials
 
     def get_endpoint(self, endpoint=""):
-        url = f"{self.base_url}{endpoint}"
+        url = "{0}{1}".format(self.base_url, endpoint)
         return requests.get(url, verify=False, cookies=self.cookies)
 
     def put_endpoint(self, endpoint="", data={}, files=None):
-        url = f"{self.base_url}{endpoint}"
+        url = "{0}{1}".format(self.base_url, endpoint)
         return requests.put(url, verify=False, cookies=self.cookies, json=data, files=files)
 
     def post_endpoint(self, endpoint="", data={}):
-        url = f"{self.base_url}{endpoint}"
+        url = "{0}{1}".format(self.base_url, endpoint)
         return requests.post(url, verify=False, cookies=self.cookies, json=data)
     
     def upload_document(self, local_path, remote_path):
         filename = os.path.basename(remote_path)
         remote_directory = os.path.dirname(remote_path)
         encoded_directory = quote_plus(remote_directory)
-        directory_entry = dp.get_endpoint(f"/resolve/entry/{encoded_directory}").json()
+        directory_entry = dp.get_endpoint("/resolve/entry/{0}".format(encoded_directory)).json()
         directory_id = directory_entry["entry_id"]
         info = {
             "file_name": filename,
@@ -67,10 +67,10 @@ class DigitalPaper(object):
             files = {
                 'file': ("altair.pdf", local_file, 'rb')
             }
-            self.put_endpoint(f"/documents/{doc_id}/file", files=files)
+            self.put_endpoint("/documents/{0}/file".format(doc_id), files=files)
         
     def take_screenshot(self):
-        url = f"{self.base_url}/system/controls/screen_shot"
+        url = "{0}/system/controls/screen_shot".format(self.base_url)
         r = requests.get(url, verify=False, cookies=self.cookies)
         with open("screenshot.png", 'wb') as f:
             f.write(r.content)
