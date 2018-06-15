@@ -60,6 +60,14 @@ The full URI for the DPT-RP1 would be:
 
 This syntax is accepted by urllib3 v1.22 and above.
 
+Thus, running the dpt-rp1 command would look something like this:
 
+```
+dptrp1 --addr [fe80::30f6:e1ff:fe26:666f%enp0s20f0u3u3] --client-id path/to/client_id.txt --key path/to/key.pem list-documents
+```
+where the IPv6 address is from `avahi-resolve` (*not* the address found by ifconfig) and the scope identifier (enp0s20f0u3u3) can be found by either finding the device on `ifconfig` or seeing what the device is renamed to in `dmesg` (it will look something like this:
+```
+rndis_host 1-3.3:1.0 enp0s20f0u3u3: renamed from usb0
+```
 
 
